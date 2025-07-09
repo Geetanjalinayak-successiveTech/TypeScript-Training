@@ -1,4 +1,5 @@
 import Spinner from "../Component/FetchDataWithSpinner";
+import RetryUsers from "../Component/retry-user";
 
 export default async function FetchData() {
   try {

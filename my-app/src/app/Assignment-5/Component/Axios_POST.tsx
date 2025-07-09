@@ -3,12 +3,12 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function PostData() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
 
-  function handleSubmit() {
+  function handleSubmit():void {
     axios
       .post("https://jsonplaceholder.typicode.com/users", {
         name: name,

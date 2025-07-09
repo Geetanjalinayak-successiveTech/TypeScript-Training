@@ -1,77 +1,113 @@
 "use client";
-import { Box, Paper, Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function TicTacToe() {
-  const [board, setBoard] = useState(Array(9).fill(null));
-  const [isXNext, setIsXNext] = useState(true);
-  const [gameOver, setGameOver] = useState(false);
+  const [boxes, setBoxes] = useState(Array(9).fill(""));
+  const [playerTurn, setPlayerTurn] = useState<boolean>(true);
+  const [gameStatus, setGameStatus] = useState<string>("Your Turn");
 
-  const handleClick = (index) => {
-    if (board[index] || gameOver) return;
+  const checkResult = (b:string[]) => {
+    const winningLines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
 
-    const newBoard = [...board];
-    newBoard[index] = isXNext ? "X" : "O";
-    setBoard(newBoard);
-    setIsXNext(!isXNext);
+    for (let combo of winningLines) {
+      const [x, y, z] = combo;
+      if (b[x] && b[x] === b[y] && b[x] === b[z]) return b[x];
+    }
+
+    if (b.every((item) => item !== "")) return "Draw";
+    return null;
   };
 
-  const handleReset = () => {
-    setBoard(Array(9).fill(null));
-    setIsXNext(true);
-    setGameOver(false);
+  const handleBoxClick = (i:number) => {
+    if (!playerTurn || boxes[i] || gameStatus !== "Your Turn") return;
+    const updatedBoxes = [...boxes];
+    updatedBoxes[i] = "X";
+    setBoxes(updatedBoxes);
+    setPlayerTurn(false);
+  };
+
+  const compMove = () => {
+    const emptySpots = [];
+    for (let i = 0; i < boxes.length; i++) {
+      if (boxes[i] === "") {
+        emptySpots.push(i);
+      }
+    }
+    if (emptySpots.length === 0) return;
+    const randomIndex =
+      emptySpots[Math.floor(Math.random() * emptySpots.length)];
+    const updatedBoxes = [...boxes];
+    updatedBoxes[randomIndex] = "O";
+    setTimeout(() => {
+      setBoxes(updatedBoxes);
+      setPlayerTurn(true);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    const winner = checkResult(boxes);
+    if (winner) {
+      setGameStatus(winner === "Draw" ? "Draw" : `${winner} Wins`);
+    } else if (!playerTurn) {
+      compMove();
+    } else {
+      setGameStatus("Your Turn");
+    }
+  }, [boxes, playerTurn]);
+
+  const resetGame = () => {
+    setBoxes(Array(9).fill(""));
+    setPlayerTurn(true);
+    setGameStatus("Your Turn");
   };
 
   return (
-    <Box sx={{ textAlign: "center", padding: "2rem" }}>
-      <Typography variant="h4" sx={{ marginBottom: "1rem" }}>
-        Tic-Tac-Toe
-      </Typography>
-
-      <Box
-        sx={{
-          width: 300,
-          height: 300,
-          margin: "0 auto",
+    <div style={{ textAlign: "center", marginTop: 30 }}>
+      <h1>Tic Tac Toe</h1>
+      <div
+        style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gridTemplateRows: "repeat(3, 1fr)",
-          gap: 0,
-          border: "4px solid #1976d2",
+          gridTemplateColumns: "repeat(3, 80px)",
+          gap: 5,
+          justifyContent: "center",
         }}
       >
-        {[...Array(9)].map((_, index) => {
-          return (
-            <Paper
-              key={index}
-              elevation={0}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 40,
-                cursor: gameOver || board[index] ? "not-allowed" : "pointer",
-                background: "#f5faff",
-              }}
-              onClick={() => handleClick(index)}
-            >
-              {board[index]}
-            </Paper>
-          );
-        })}
-      </Box>
-
-      <Typography variant="h6" sx={{ marginTop: "1rem" }}>
-        {gameOver ? "Game Over!" : `${isXNext ? "X" : "O"}`}
-      </Typography>
-
-      <Button
-        variant="contained"
-        sx={{ marginTop: "1rem" }}
-        onClick={handleReset}
+        {boxes.map((val, i) => (
+          <div
+            key={i}
+            onClick={() => handleBoxClick(i)}
+            style={{
+              width: 80,
+              height: 80,
+              fontSize: 32,
+              backgroundColor: "#f0f0f0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              border: "1px solid #333",
+            }}
+          >
+            {val}
+          </div>
+        ))}
+      </div>
+      <h2>{gameStatus}</h2>
+      <button
+        onClick={resetGame}
+        style={{ marginTop: 15, padding: "8px 16px" }}
       >
         Reset
-      </Button>
-    </Box>
+      </button>
+    </div>
   );
 }

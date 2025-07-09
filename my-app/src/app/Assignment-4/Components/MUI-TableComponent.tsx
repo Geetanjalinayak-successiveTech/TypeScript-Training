@@ -9,7 +9,7 @@ import {
   TableContainer,
   TablePagination,
 } from "@mui/material";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export const rows = [
   { id: 1, name: "A", age: 25, city: "Delhi" },
@@ -24,8 +24,8 @@ export default function TableComponent() {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(3);
 
-  const handleChangePage = (_, newPage:number):void => setPage(newPage);
-  const handleChangeRowsPerPage = (e) => {
+  const handleChangePage = (_:unknown, newPage:number):void => setPage(newPage);
+  const handleChangeRowsPerPage = (e:ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(e.target.value));
     setPage(0);
   };

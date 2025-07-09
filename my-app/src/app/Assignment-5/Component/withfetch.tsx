@@ -1,8 +1,9 @@
+import { FC } from "react"
 
 
-const WithFetch=(Components)=>{
-    return (props)=>{
-        return <Components {...props}/>
+const WithFetch=(Components:FC)=>{
+    return ()=>{
+        return <Components/>
     }
 }
 

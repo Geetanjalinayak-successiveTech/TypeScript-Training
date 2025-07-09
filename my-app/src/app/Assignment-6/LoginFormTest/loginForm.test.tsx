@@ -5,8 +5,8 @@ describe('LoginForm', () => {
   it('should accept user input in username and password fields', () => {
     render(<LoginForm onSubmit={jest.fn()} />);
 
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const passwordInput = screen.getByPlaceholderText('Password');
+    const usernameInput = screen.getByPlaceholderText('Username') as HTMLInputElement;
+    const passwordInput = screen.getByPlaceholderText('Password') as HTMLInputElement;
 
     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
     fireEvent.change(passwordInput, { target: { value: '1234' } });

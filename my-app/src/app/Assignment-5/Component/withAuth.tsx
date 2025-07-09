@@ -1,9 +1,12 @@
-const WithAuth = (Component) => {
+import { FC } from "react";
+
+
+const WithAuth = (Component:FC) => {
   const isAuthenticate = true;
 
-  return function (props) {
+  return function () {
     if (isAuthenticate) {
-     return <Component {...props} />;
+     return <Component/>;
     } else {
        return (<p>Please Login</p>);
     }

@@ -1,5 +1,10 @@
 'use client';
-export default function UserProfile({ name, email, phone }) {
+interface prop{
+  name:string,
+  email:string,
+  phone:string,
+}
+export default function UserProfile({ name, email, phone }:prop) {
   return (
     <div>
       <h2>{name}</h2>

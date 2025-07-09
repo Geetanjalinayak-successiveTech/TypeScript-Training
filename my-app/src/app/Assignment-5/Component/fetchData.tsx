@@ -1,4 +1,8 @@
-
+interface user{
+  id:number,
+  name:string,
+  email:string,
+}
 
  export default  async function  FetchData()
 {
@@ -8,7 +12,7 @@
     {
        throw new Error ("Failed to Fetch Data") 
     }
-    const data=  await res.json()
+    const data:user[]=  await res.json()
 
     return (
     <main style={{ padding: 200 }}>

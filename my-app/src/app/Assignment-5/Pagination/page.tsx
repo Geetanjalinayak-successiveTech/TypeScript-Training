@@ -13,13 +13,25 @@ async function fetchData() {
   return data;
 }
 
-export default  async function Pagination({searchParams}) {
+interface user{
+  id:number,
+  body:string,
+  name:string
+}
+interface par{
+  searchParams:{
+    page:string
+
+  }
+}
+
+export default  async function Pagination({searchParams}:par) {
   const page = parseInt(searchParams.page) || 1;
-  const allPosts = await fetchData();
+  const allPosts= await fetchData();
   const totalPages = Math.ceil(allPosts.length / page_size);
 
   const start = (page - 1) * page_size;
-  const paginatedPosts = allPosts.slice(start, start + page_size);
+  const paginatedPosts:user[] = allPosts.slice(start, start + page_size);
 
   return (
 

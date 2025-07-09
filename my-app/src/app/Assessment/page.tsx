@@ -1,5 +1,5 @@
 
-import TicTacToe from "./Components/Tic-Tac-Toe";
+import TicTacToe from "./Components/Tic-Tac-Toe"
 
 
 export default function App()

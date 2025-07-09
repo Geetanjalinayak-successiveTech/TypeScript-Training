@@ -13,7 +13,9 @@ import { ThemeContext } from "../question-11/page";
 
 export default function Theme()
 {
-    const {theme, setTheme}=useContext(ThemeContext);
+    const them= useContext(ThemeContext);
+    if(!them)return null ;
+    const {theme, setTheme}=them;
     function handleTheme()
     {
          if(theme==="dark")

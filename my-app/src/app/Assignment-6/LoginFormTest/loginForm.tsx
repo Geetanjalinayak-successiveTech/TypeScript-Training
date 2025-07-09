@@ -1,11 +1,16 @@
 'use client';
-import { useState } from 'react';
+import { FormEvent, ReactNode, useState } from 'react';
 
-export default function LoginForm({ onSubmit }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+interface prop {
+  onSubmit: (data: { username: string; password: string }) => void;
+}
 
-  const handleSubmit = (e) => {
+
+export default function LoginForm({ onSubmit}:prop) {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({ username, password });
   };

@@ -5,14 +5,14 @@ import { useState } from "react"
 
 export default function DropDown()
 {
-    const [select,setSelect]= useState("");
-    const [isOpen,setIsOpen] = useState(false)
+    const [select,setSelect]= useState<string>("");
+    const [isOpen,setIsOpen] = useState<boolean>(false)
     function handleClick()
     {
         setIsOpen(!isOpen)
     }
 
-    function handleSelect(option)
+    function handleSelect(option:string)
     {
         setSelect(option)
         setIsOpen(false);
